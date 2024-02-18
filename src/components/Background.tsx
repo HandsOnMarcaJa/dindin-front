@@ -1,5 +1,5 @@
-import Image from "next/image";
-import BackgroundImage from "../assets/background.png";
+import Image from 'next/image'
+import BackgroundImage from '../assets/background.png'
 
 export function Background() {
   return (
@@ -12,5 +12,5 @@ export function Background() {
       quality={100}
       priority
     />
-  );
+  )
 }

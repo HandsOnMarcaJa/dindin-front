@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from 'next/image'
 import LogoImage from '../assets/logo.svg'
 
 export function Logo() {
