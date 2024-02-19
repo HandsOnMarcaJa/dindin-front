@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import router from 'next/router'
+import { twMerge } from 'tailwind-merge'
 
 const registerFormSchema = z.object({
   name: z.string().min(2).max(60),
@@ -21,6 +22,7 @@ export interface RegisterFormProps {
   buttonName: string
   onClose?: () => void
   isRegistering: boolean
+  className?: string
 }
 
 export function RegisterForm({
@@ -28,6 +30,7 @@ export function RegisterForm({
   buttonName,
   isRegistering,
   onClose,
+  className,
 }: RegisterFormProps) {
   const {
     register,
@@ -55,7 +58,10 @@ export function RegisterForm({
 
   return (
     <form
-      className="flex flex-col gap-4 bg-gray-100 p-6 px-8 w-full max-w-sm mx-auto shadow-lg"
+      className={twMerge(
+        'flex flex-col gap-4 bg-gray-100 p-6 px-8 w-full max-w-sm mx-auto shadow-lg',
+        className,
+      )}
       onSubmit={handleSubmit(handleRegister)}
     >
       <span className="text-xl text-center text-violet-500 font-bold mt-6">

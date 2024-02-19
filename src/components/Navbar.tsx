@@ -24,7 +24,7 @@ export default function Navbar() {
 
   return (
     <div>
-      <div className="bg-custom-gradient p-4 flex flex-row justify-between">
+      <div className="bg-custom-gradient w-full p-4 flex flex-row justify-between">
         <Logo />
         <div className="flex items-center">
           <button
@@ -47,6 +47,7 @@ export default function Navbar() {
               buttonName="Confirmar"
               isRegistering={false}
               onClose={closeModal}
+              className="shadow-transparent"
             />
           </div>
         </EditModal>
