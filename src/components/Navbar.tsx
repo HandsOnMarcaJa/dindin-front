@@ -47,6 +47,7 @@ export default function Navbar() {
               buttonName="Confirmar"
               isRegistering={false}
               onClose={closeModal}
+              className="shadow-transparent"
             />
           </div>
         </EditModal>
