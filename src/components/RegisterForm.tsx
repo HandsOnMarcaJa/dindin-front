@@ -5,8 +5,9 @@ import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import router from 'next/router'
 import { twMerge } from 'tailwind-merge'
+import { useUser } from '@/hooks/useUser'
+import { useRouter } from 'next/navigation'
 
 const registerFormSchema = z.object({
   name: z.string().min(2).max(60),
@@ -15,7 +16,7 @@ const registerFormSchema = z.object({
   confirmPassword: z.string().min(6),
 })
 
-type RegisterFormData = z.infer<typeof registerFormSchema>
+export type RegisterFormData = z.infer<typeof registerFormSchema>
 
 export interface RegisterFormProps {
   formName: string
@@ -32,6 +33,10 @@ export function RegisterForm({
   onClose,
   className,
 }: RegisterFormProps) {
+  const { isLoading, user, register: registerUser, getUser, update } = useUser()
+
+  const navigator = useRouter()
+
   const {
     register,
     handleSubmit,
@@ -48,12 +53,37 @@ export function RegisterForm({
 
       return
     }
-    console.log(data)
+
     if (isRegistering) {
-      router.push('/login')
+      const success = await registerUser(data)
+
+      if (success) navigator.push('/login')
     } else if (onClose) {
-      onClose()
+      const success = await update(data)
+
+      if (success) {
+        getUser()
+        onClose()
+      }
     }
+  }
+
+  if (isLoading) {
+    return (
+      <p className="absolute inset-0 flex items-center justify-center bg-gray-100">
+        Loading...
+      </p>
+    )
+  }
+
+  if (user && isRegistering) {
+    navigator.push('/login')
+
+    return (
+      <p className="absolute inset-0 flex items-center justify-center bg-gray-100">
+        Redirecting...
+      </p>
+    )
   }
 
   return (

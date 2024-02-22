@@ -2,5 +2,8 @@
   "extends": [
     "next/core-web-vitals",
     "@rubykgen/eslint-config/next"
-  ]
+  ],
+  "rules": {
+    "camelcase": "off"
+  }
 }
