@@ -3,15 +3,15 @@
 import { api } from '@/services/apiConfig'
 import { useUserStore } from '@/store/user'
 import { useEffect } from 'react'
-import { useLocalStorage } from './useLocalStorage'
+import { useCookies } from './useCookies'
 
 export function usePreload() {
   const { loadUser } = useUserStore((state) => ({
     loadUser: state.getUser,
   }))
-  const localStorage = useLocalStorage()
+  const cookies = useCookies()
 
-  const token = localStorage.get('@DD:access_token')
+  const token = cookies.get('@DD:access_token')
 
   if (token) {
     api.defaults.headers.Authorization = `Bearer ${token}`
