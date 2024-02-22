@@ -16,7 +16,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           {label}
         </label>
         <input
-          className="border border-zinc-400 rounded-md p-1.5 outline-none bg-[#00000000] data-[error=true]:border-red-500 ease-in-out duration-200"
+          className="border border-zinc-400 text-zinc-900 rounded-md p-1.5 outline-none bg-[#00000000] data-[error=true]:border-red-500 ease-in-out duration-200"
           data-error={!!error}
           {...props}
           ref={ref}
@@ -26,3 +26,5 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     )
   },
 )
+
+Input.displayName = 'Input'

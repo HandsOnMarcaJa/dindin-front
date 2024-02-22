@@ -7,19 +7,30 @@ import logoutImg from '@/assets/logout.svg'
 import { RegisterForm } from '@/components/RegisterForm'
 import { useRouter } from 'next/navigation'
 import { Logo } from './Logo'
+import { api } from '@/services/apiConfig'
+import { User } from '@/store/user'
+import { useUser } from '@/hooks/useUser'
 
-export default function Navbar() {
+interface NavbarProps {
+  user: User | null
+}
+
+export default function Navbar({ user }: NavbarProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const router = useRouter()
+
+  const { logout: logoutUser } = useUser()
 
   const openModal = () => setIsModalOpen(true)
   const closeModal = () => setIsModalOpen(false)
 
-  const username = 'User'
+  const username = user?.name ?? 'User'
 
   const logout = () => {
+    api.defaults.headers.Authorization = ''
+    localStorage.removeItem('@DD:access_token')
+    logoutUser()
     router.push('/login')
-    // Logout logic here
   }
 
   return (
@@ -32,7 +43,7 @@ export default function Navbar() {
             onClick={openModal}
           >
             <Image src={Person} alt={'profile pic'} />
-            <h1>{username}</h1>
+            <span className="text-white font-bold text-lg">{username}</span>
           </button>
 
           <button className="px-4 py-2 rounded " onClick={logout}>

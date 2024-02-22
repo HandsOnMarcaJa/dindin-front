@@ -6,27 +6,48 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from './Input'
+import { useRouter } from 'next/navigation'
+import { useUser } from '@/hooks/useUser'
 
-const registerFormSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
+const loginFormSchema = z.object({
+  email: z.string().trim().email(),
+  password: z.string().trim().min(8),
 })
 
-type RegisterFormData = z.infer<typeof registerFormSchema>
+export type LoginFormData = z.infer<typeof loginFormSchema>
 
 export function LoginForm() {
+  const { isLoading, user, login, getUser } = useUser()
+  const navigator = useRouter()
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting, isDirty },
-  } = useForm<RegisterFormData>({
-    resolver: zodResolver(registerFormSchema),
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginFormSchema),
   })
 
-  async function handleLogin(data: RegisterFormData) {
-    // checar senha
+  async function handleLogin(data: LoginFormData) {
+    const success = await login(data)
 
-    console.log(data)
+    if (success) {
+      await getUser()
+      navigator.push('/')
+    }
+  }
+
+  if (isLoading) {
+    return <p>Loading...</p>
+  }
+
+  if (user) {
+    navigator.push('/')
+    return (
+      <p className="absolute inset-0 flex items-center justify-center bg-gray-100">
+        Redirecting...
+      </p>
+    )
   }
 
   return (

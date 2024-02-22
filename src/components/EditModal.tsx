@@ -1,3 +1,7 @@
+'use client'
+import { useUser } from '@/hooks/useUser'
+import { useRouter } from 'next/navigation'
+
 export default function EditModal({
   isOpen,
   onClose,
@@ -7,6 +11,16 @@ export default function EditModal({
   onClose: () => void
   children: React.ReactNode
 }) {
+  const navigator = useRouter()
+  const { deleteUser, getUser } = useUser()
+
+  async function handleDeleteUser() {
+    await deleteUser()
+    await getUser()
+
+    navigator.push('/login')
+  }
+
   if (!isOpen) return null
 
   return (
@@ -17,7 +31,10 @@ export default function EditModal({
         </button>
         {children}
 
-        <button className="text-red-500 w-full text-center">
+        <button
+          className="text-red-500 w-full text-center"
+          onClick={handleDeleteUser}
+        >
           Deletar usuário
         </button>
       </div>
