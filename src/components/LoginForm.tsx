@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from './Input'
 import { useRouter } from 'next/navigation'
 import { useUser } from '@/hooks/useUser'
-import { useLocalStorage } from '@/hooks/useLocalStorage'
+import { useCookies } from '@/hooks/useCookies'
 
 const loginFormSchema = z.object({
   email: z.string().trim().email(),
@@ -19,7 +19,7 @@ export type LoginFormData = z.infer<typeof loginFormSchema>
 
 export function LoginForm() {
   const { isLoading, user, login, getUser } = useUser()
-  const localstorage = useLocalStorage()
+  const cookies = useCookies()
   const navigator = useRouter()
 
   const {
@@ -34,7 +34,7 @@ export function LoginForm() {
     const token = await login(data)
 
     if (token) {
-      localstorage.set('@DD:access_token', token)
+      cookies.set('@DD:access_token', token)
       await getUser()
       navigator.push('/')
     }

@@ -10,7 +10,7 @@ import { Logo } from './Logo'
 import { api } from '@/services/apiConfig'
 import { User } from '@/store/user'
 import { useUser } from '@/hooks/useUser'
-import { useLocalStorage } from '@/hooks/useLocalStorage'
+import { useCookies } from '@/hooks/useCookies'
 
 interface NavbarProps {
   user: User | null
@@ -21,7 +21,7 @@ export default function Navbar({ user }: NavbarProps) {
   const router = useRouter()
 
   const { logout: logoutUser } = useUser()
-  const localStorage = useLocalStorage()
+  const cookies = useCookies()
 
   const openModal = () => setIsModalOpen(true)
   const closeModal = () => setIsModalOpen(false)
@@ -30,7 +30,7 @@ export default function Navbar({ user }: NavbarProps) {
 
   const logout = () => {
     api.defaults.headers.Authorization = ''
-    localStorage.remove('@DD:access_token')
+    cookies.remove('@DD:access_token')
     logoutUser()
     router.push('/login')
   }
