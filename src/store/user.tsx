@@ -1,3 +1,4 @@
+'use client'
 import { LoginFormData } from '@/components/LoginForm'
 import { RegisterFormData } from '@/components/RegisterForm'
 import { api } from '@/services/apiConfig'
