@@ -2,7 +2,7 @@
 import { useMemo } from 'react'
 import { parseCookies, setCookie } from 'nookies'
 
-export function useLocalStorage() {
+export function useCookies() {
   const { get, set, remove } = useMemo(() => {
     function get(key: string) {
       const ck = parseCookies()
