@@ -16,6 +16,10 @@ export default function EditModal({
           &times;
         </button>
         {children}
+
+        <button className="text-red-500 w-full text-center">
+          Deletar usuário
+        </button>
       </div>
     </div>
   )
