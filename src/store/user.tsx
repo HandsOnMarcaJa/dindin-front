@@ -16,7 +16,7 @@ interface UseUserStore {
 
   getUser: () => Promise<void>
   logout: () => void
-  login: (data: LoginFormData) => Promise<boolean>
+  login: (data: LoginFormData) => Promise<string>
   register: (data: RegisterFormData) => Promise<boolean>
   update: (data: RegisterFormData) => Promise<boolean>
   delete: () => Promise<void>
@@ -47,21 +47,18 @@ export const useUserStore = create<UseUserStore>((set) => {
       })
     },
 
-    login: async (data: LoginFormData): Promise<boolean> => {
+    login: async (data: LoginFormData): Promise<string> => {
       const response = await api.post('/user/login', data)
       const access_token = response.data?.access_token
 
       if (access_token) {
-        localStorage.setItem('@DD:access_token', access_token)
         api.defaults.headers.Authorization = `Bearer ${access_token}`
 
-        return true
+        return access_token
       }
 
-      console.log(response)
-
       alert(`Error ao fazer login: ${response.data?.message}`)
-      return false
+      return access_token
     },
 
     register: async (data: RegisterFormData): Promise<boolean> => {
